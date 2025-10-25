@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
-import { createNote, deleteNote } from '@/app/_actions/notes';
+import { createNote } from '@/app/_actions/notes';
+import NoteItem from '@/components/NoteItem';
 
 export default async function NotesPage() {
   const notes = await prisma.note.findMany();
@@ -7,6 +8,7 @@ export default async function NotesPage() {
   return (
     <div className="p-6">
       <h1 className="text-xl font-semibold mb-4">My Notes</h1>
+
       <form action={createNote} className="mb-6 space-y-3">
         <input
           name="title"
@@ -25,22 +27,10 @@ export default async function NotesPage() {
           Add Note
         </button>
       </form>
+
       <ul className="space-y-4">
         {notes.map((note) => (
-          <li key={note.id} className="border p-3 rounded">
-            <h2 className="font-bold">{note.title}</h2>
-            <p>{note.content}</p>
-            <form
-              action={async () => {
-                'use server';
-                await deleteNote(note.id);
-              }}
-            >
-              <button type="submit" className="text-red-500 mt-2">
-                Delete
-              </button>
-            </form>
-          </li>
+          <NoteItem key={note.id} note={note} />
         ))}
       </ul>
     </div>
