@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@plugin "daisyui";
+
 
 :root {
   --background: #f4f5f7; 
@@ -33,7 +35,6 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .card {
@@ -45,13 +46,4 @@ body {
 .card:hover {
   border-color: var(--accent);
   transform: translateY(-2px);
-}
-
-a {
-  color: var(--accent);
-  transition: color 0.2s ease;
-}
-
-a:hover {
-  color: #2563eb; 
 }
