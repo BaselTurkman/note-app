@@ -7,6 +7,10 @@ export async function createNote(formData: FormData) {
   const title = (formData.get("title") as string)?.trim();
   const content = (formData.get("content") as string)?.trim();
 
+  if (!title || !content) {
+    throw new Error("Title and content are required.");
+  }
+
   await prisma.note.create({
     data: { title, content },
   });

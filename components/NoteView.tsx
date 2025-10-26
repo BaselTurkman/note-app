@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition } from "react";
+import { useState } from "react";
 import { deleteNote } from "@/app/_actions/notes";
 import { Note } from "@/types";
 
@@ -10,10 +10,14 @@ interface NoteViewProps {
 }
 
 export default function NoteView({ note, onEdit }: NoteViewProps) {
-  const handleDelete = () => {
-    startTransition(async () => {
+  const [isPending, setIsPending] = useState(false);
+  const handleDelete = async () => {
+    setIsPending(true);
+    try {
       await deleteNote(note.id);
-    });
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (
@@ -36,7 +40,11 @@ export default function NoteView({ note, onEdit }: NoteViewProps) {
             onClick={handleDelete}
             className="btn btn-sm btn-error text-white"
           >
-            🗑️
+            {isPending ? (
+              <span className="loading loading-spinner loading-sm" />
+            ) : (
+              "🗑️"
+            )}
           </button>
         </div>
       </div>
